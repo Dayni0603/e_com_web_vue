@@ -1,104 +1,35 @@
 <template>
-  <div class="shop-container">
-    <header class="shop-header">
-      <div class="shop-name navigation">
-        <h1>Gebeya.com</h1>
-        <nav class="nav-links">
-          <a href="#">Home</a>
-          <a href="#">About</a>
-          <a href="#">Contact Us</a>
-        </nav>
+  <header class="shop-header">
+    <div class="shop-name navigation">
+      <h1>Gebeya.com</h1>
+      <nav class="nav-links">
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/contact">Contact Us</RouterLink>
+      </nav>
+    </div>
+    <div class="cart-section">
+      <div class="cart">
+        🛒 <span class="count">{{ cart.length }}</span>
       </div>
-
-      <div class="cart-section">
-        <div class="cart">
-          🛒 <span class="count">{{ cart.length }}</span>
-        </div>
-        <div
-          class="user-profile"
-          @mouseover="showName = true"
-          @mouseleave="showName = false"
-        >
-          <span v-if="!showName" class="user-icon">👤</span>
-          <span v-else class="user-name">{{ userName }}</span>
-        </div>
-      </div>
-    </header>
-
-    <main class="items-grid">
       <div
-        class="item-card"
-        v-for="item in items"
-        :key="item.id"
+        class="user-profile"
         @mouseover="showName = true"
-        @mouseleave="item.hover = false"
+        @mouseleave="showName = false"
       >
-        <img :src="item.image" :alt="item.name" />
-        <div class="item-details">
-          <h3>{{ item.name }}</h3>
-          <p>{{ item.price }}</p>
-        </div>
-        <transition name="fade">
-          <button v-if="item.hover" class="add-btn" >
-            Order
-          </button>
-        </transition>
+        <span v-if="!showName" class="user-icon">👤</span>
+        <span v-else class="user-name">{{ userName }}</span>
       </div>
-    </main>
-  </div>
+    </div>
+  </header>
 </template>
 
-<script setup lang="ts">
-import { reactive, ref } from 'vue';
+<script setup>
+import { reactive, ref } from "vue";
 
 const userName = "Danayit Mulugeta";
-const showName = ref(false);
 const cart = reactive([]);
-const items = reactive([
-  {
-    id: 1,
-    name: "Red T-shirt",
-    price: "$19.99",
-    image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-    hover: false,
-  },
-  {
-    id: 2,
-    name: "Blue Jeans",
-    price: "$49.99",
-    image:
-      "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
-    hover: false,
-  },
-  {
-    id: 3,
-    name: "Sneakers",
-    price: "$89.99",
-    image: "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
-    hover: false,
-  },
-  {
-    id: 4,
-    name: "Cap",
-    price: "$14.99",
-    image: "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
-    hover: false,
-  },
-  {
-    id: 5,
-    name: "Cap",
-    price: "$14.99",
-    image: "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg",
-    hover: false,
-  },
-  {
-    id: 6,
-    name: "Cap",
-    price: "$14.99",
-    image: "https://fakestoreapi.com/img/51Y5NI-I5jL._AC_UX679_.jpg",
-  },
-]);
-
+const showName = reactive(false);
 </script>
 
 <style scoped>
@@ -125,7 +56,7 @@ const items = reactive([
   font-weight: 400;
   color: #b2967d;
 }
-.navigation{
+.navigation {
   display: flex;
   gap: 20rem;
 }
