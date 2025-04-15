@@ -1,19 +1,24 @@
 <template>
   <div class="shop-container">
     <header class="shop-header">
-      <div class="shop-name">
+      <div class="shop-name navigation">
         <h1>Gebeya.com</h1>
+        <nav class="nav-links">
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="#">Contact Us</a>
+        </nav>
       </div>
-      <nav class="nav-links">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact Us</a>
-      </nav>
+
       <div class="cart-section">
         <div class="cart">
           🛒 <span class="count">{{ cart.length }}</span>
         </div>
-        <div class="user-profile" @mouseover="showName = true" @mouseleave="showName = false">
+        <div
+          class="user-profile"
+          @mouseover="showName = true"
+          @mouseleave="showName = false"
+        >
           <span v-if="!showName" class="user-icon">👤</span>
           <span v-else class="user-name">{{ userName }}</span>
         </div>
@@ -34,11 +39,7 @@
           <p>{{ item.price }}</p>
         </div>
         <transition name="fade">
-          <button
-            v-if="item.hover"
-            class="add-btn"
-            @click="goToCheckout(item)"
-          >
+          <button v-if="item.hover" class="add-btn" @click="goToCheckout(item)">
             Order
           </button>
         </transition>
@@ -48,28 +49,64 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref } from "vue";
 //import { useRouter } from 'vue-router'
 
 //const router = useRouter()
-const userName = 'Danayit Mulugeta'
-const showName = ref(false)
+const userName = "Danayit Mulugeta";
+const showName = ref(false);
 
-const cart = reactive([])
+const cart = reactive([]);
 
 const items = reactive([
-  { id: 1, name: 'Red T-shirt', price: '$19.99', image: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg', hover: false },
-  { id: 2, name: 'Blue Jeans', price: '$49.99', image: 'https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg', hover: false },
-  { id: 3, name: 'Sneakers', price: '$89.99', image: 'https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg', hover: false },
-  { id: 4, name: 'Cap', price: '$14.99', image: 'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg', hover: false },
-  { id: 5, name: 'Cap', price: '$14.99', image: 'https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg', hover: false },
-  { id: 6, name: 'Cap', price: '$14.99', image:'https://fakestoreapi.com/img/51Y5NI-I5jL._AC_UX679_.jpg'}
-])
+  {
+    id: 1,
+    name: "Red T-shirt",
+    price: "$19.99",
+    image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+    hover: false,
+  },
+  {
+    id: 2,
+    name: "Blue Jeans",
+    price: "$49.99",
+    image:
+      "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
+    hover: false,
+  },
+  {
+    id: 3,
+    name: "Sneakers",
+    price: "$89.99",
+    image: "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
+    hover: false,
+  },
+  {
+    id: 4,
+    name: "Cap",
+    price: "$14.99",
+    image: "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
+    hover: false,
+  },
+  {
+    id: 5,
+    name: "Cap",
+    price: "$14.99",
+    image: "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg",
+    hover: false,
+  },
+  {
+    id: 6,
+    name: "Cap",
+    price: "$14.99",
+    image: "https://fakestoreapi.com/img/51Y5NI-I5jL._AC_UX679_.jpg",
+  },
+]);
 
 const goToCheckout = (item) => {
-  cart.push(item)
- // router.push('/checkout')
-}
+  cart.push(item);
+  // router.push('/checkout')
+};
 </script>
 
 <style scoped>
@@ -93,8 +130,12 @@ const goToCheckout = (item) => {
 .shop-name h1 {
   margin: 0;
   font-size: 1.6rem;
-  font-weight:400;
+  font-weight: 400;
   color: #b2967d;
+}
+.navigation{
+  display: flex;
+  gap: 20rem;
 }
 
 .nav-links {
@@ -219,10 +260,12 @@ const goToCheckout = (item) => {
   background: linear-gradient(to right, #716b6b, #b2967d);
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.3s ease;
 }
-.fade-enter-from, .fade-leave-to {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 </style>
