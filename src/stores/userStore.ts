@@ -4,7 +4,7 @@ import api from "../services/api";
 export interface User{
     email:  string;
     token: string;
-    fullName: string;
+    name: string;
 }
 
 export const useUserStore = defineStore("userStore", {
@@ -21,9 +21,8 @@ export const useUserStore = defineStore("userStore", {
                     password
                 });
 
-                const token = response.data; //we will get back to this
-
-                this.user = {email, token};
+                this.user = response.data.user;
+                this.user.token = response.data.token
                 this.error = null;
             }
             catch(err: any){

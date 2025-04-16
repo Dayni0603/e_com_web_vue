@@ -12,33 +12,111 @@
       <div class="cart">
         🛒 <span class="count">{{ cart.length }}</span>
       </div>
-      <div
-        class="user-profile"
-        @mouseover="showName = true"
-        @mouseleave="showName = false"
-      >
-        <span v-if="!showName" class="user-icon">👤</span>
-        <span v-else class="user-name">{{ userName }}</span>
+      <div>
+        <!-- If logged in, show user icon with dropdown -->
+        <div v-if="isLoggedIn" class="user-profile" @mouseover="showMenu = true" @mouseleave="showMenu = false">
+          <span class="user-icon">👤</span>
+          <div v-if="showMenu" class="user-dropdown">
+            <div class="user-name">{{ userName }}</div>
+            <ul class="user-menu">
+              <li><a href="/profile">Profile</a></li>
+              <li><button @click="handleLogOut">Logout</button></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- If NOT logged in, show login button -->
+        <div v-else class="user-profile">
+          <button class="login-btn" @click="goToLogin">Login</button>
+        </div>
       </div>
     </div>
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, ref } from "vue";
+import { useUserStore } from "../stores/userStore";
+import { useRouter } from "vue-router";
 
-const userName = "Danayit Mulugeta";
 const cart = reactive([]);
-const showName = reactive(false);
+const showMenu = ref(false);
+const authStore = useUserStore();
+const router = useRouter();
+
+const userName = authStore.user?.name;
+const isLoggedIn = authStore.user !== null;
+
+const handleLogOut = () => {
+  console.log("logging out");
+  authStore.logOut();
+  router.push('/login')
+}
+const goToLogin = () => {
+  router.push('/login')
+}
+
+
+
+
+
+
 </script>
 
 <style scoped>
-.shop-container {
-  font-family: lato, sans-serif;
-  background: linear-gradient(to right, #f2f9ff, #ffffff);
-  min-height: 100vh;
-  color: #333;
+.user-profile {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
 }
+
+.user-icon {
+  font-size: 1.5rem;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.user-name {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.user-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.user-menu li {
+  margin: 0.25rem 0;
+}
+
+.user-menu a,
+.user-menu button {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.user-menu button:hover,
+.user-menu a:hover {
+  color: #007bff;
+}
+
 
 .shop-header {
   display: flex;
@@ -56,6 +134,7 @@ const showName = reactive(false);
   font-weight: 400;
   color: #b2967d;
 }
+
 .navigation {
   display: flex;
   gap: 20rem;
@@ -121,12 +200,16 @@ const showName = reactive(false);
 
 .items-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Always 4 columns */
+  grid-template-columns: repeat(4, 1fr);
+  /* Always 4 columns */
   gap: 2rem;
   padding: 0 2rem;
-  justify-content: center; /* Center the grid if it doesn't take full width */
-  max-width: 1200px; /* Optional: max width for better control */
-  margin: 0 auto; /* Center the whole grid container */
+  justify-content: center;
+  /* Center the grid if it doesn't take full width */
+  max-width: 1200px;
+  /* Optional: max width for better control */
+  margin: 0 auto;
+  /* Center the whole grid container */
 }
 
 .item-card {
@@ -187,8 +270,22 @@ const showName = reactive(false);
 .fade-leave-active {
   transition: opacity 0.3s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.login-btn {
+  padding: 0.5rem 1rem;
+  background-color: #b2967d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.login-btn:hover {
+  background-color: #a18564;
 }
 </style>
