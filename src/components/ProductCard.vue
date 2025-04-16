@@ -1,42 +1,27 @@
 <template>
- <main class="items-grid">
-    <ProductCard
-      v-for="product in store.products"
-      :key="product.id"
-      :product="product"
-      @order="handleOrder"
-    />
-  </main>
+    <div class="item-card">
+      <div class="image-container">
+        <img :src="product.image" :alt="product.name" />
+      </div>
+      <div class="item-details">
+        <h3 class="product-name">{{ product.name }}</h3>
+        <p class="product-price">ETB {{ product.price }}</p>
+        <button class="add-btn" @click="$emit('order', product)">Order</button>
+      </div>
+    </div>
+  </template>
 
-</template>
+  <script setup>
+  defineProps({
+    product:{
+        type: Object,
+        required: true
+    }
+  })
+  </script>
 
-<script setup>
-import { onMounted } from 'vue'
-import { useProductStore } from '../stores/productStore'
-import ProductCard from '../components/ProductCard.vue'
-
-const store = useProductStore()
-
-function handleOrder(product){
-console.log(product);
-}
-
-onMounted(() => {
-  store.loadProducts()
-})
-</script>
-
-<style scoped>
-.items-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 2rem;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: auto;
-}
-
-.item-card {
+  <style scoped>
+  .item-card {
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
